@@ -1,6 +1,7 @@
 import pygame
 import numpy as np
 import random
+from mydbscan import calc
 
 from sklearn.cluster import DBSCAN
 
@@ -31,7 +32,6 @@ while True:
 		if event.type == pygame.QUIT:
 			pygame.quit()
 			exit()
-		print(event)
 		if event.type == pygame.MOUSEBUTTONUP:
 		
 			flag=False
@@ -50,7 +50,7 @@ while True:
 				pygame.draw.circle(screen, "black", pos, radius)
 				n = random.randint(1, 3)
 				for i in range(0, n):
-					new_pos = (pos[0] + random.randint(-20, 20), pos[1] + random.randint(-20, 20))
+					new_pos = (pos[0] + random.randint(-10, 10), pos[1] + random.randint(-10, 10))
 					pygame.draw.circle(screen, "black", new_pos, radius)
 					points.append(Point(new_pos[0], new_pos[1]))
 				pygame.display.update()
@@ -60,7 +60,12 @@ while True:
 				dbscan = DBSCAN(eps=30, min_samples=10)
 				arr_p = [[p.x, p.y] for p in points ]
 				dbscan.fit(arr_p)
-				labels = dbscan.labels_
+				res = calc(arr_p, 100, 5)
+				#labels = dbscan.labels_
+				labels = []
+				for i in range(0, len(res)):
+					labels.append(res[i][2])
+				print(f'labels{labels}')
 				plt.figure(figsize=(10, 6))
 				x = [point.x for point in points]
 				y = [point.y for point in points]
