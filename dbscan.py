@@ -60,11 +60,8 @@ while True:
 				dbscan = DBSCAN(eps=30, min_samples=10)
 				arr_p = [[p.x, p.y] for p in points ]
 				dbscan.fit(arr_p)
-				res = calc(arr_p, 100, 5)
+				labels = calc(arr_p, 100, 5)
 				#labels = dbscan.labels_
-				labels = []
-				for i in range(0, len(res)):
-					labels.append(res[i][2])
 				print(f'labels{labels}')
 				plt.figure(figsize=(10, 6))
 				x = [point.x for point in points]
